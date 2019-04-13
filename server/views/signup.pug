@@ -1,0 +1,18 @@
+html
+    head
+        title Book Hero
+        link(rel="stylesheet", href="/app.css")
+    body
+        div.wrapper
+            div.paper
+                h1 Signup
+                div.form
+                    form(action="/api/users/register", method="post")
+                        div.input-group
+                            input(type="email", placeholder="Email", name="email")
+                        div.input-group
+                            input(type="password", placeholder="Password", name="password")
+                        button(type="submit") Signup
+                        div.switch
+                            a(href="/app/login") Login
+                        div.error= error

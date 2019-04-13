@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+* {
+    font-family: 'Roboto', 'FontAwesome', sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+a{
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.75);
+}
+
+.navbar{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 35px;
+    margin-left: 100px;
+    justify-content: space-between;
+}
+
+hr{
+    border-color: rgba(0, 0, 0, 0.1)
+}
+
+ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-size: 18px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.75);
+    margin-right: 20px;
+}
+
+
+li{
+    float: left;
+    margin-left: 100px;
+    border: 1px solid rgba(0, 0, 0, 0.75);
+    padding: 12px;
+    width: 90px;
+    text-align: center;
+
+}
+
+.logo{
+    color: rgba(0, 0, 0, 0.75);
+    font-size: 36px;
+    font-weight: 500;
+    width: 200px;
+
+}
+
+.logo > a{
+    text-decoration: none !important;
+    color: rgba(0, 0, 0, 0.75);
+}
+
+.search-bar{
+    background: #f5f5f5;
+    width: 300px;
+    height: 10px;
+    padding: 30px;
+    margin-right: 200px;
+}
+
+i{
+    margin-right: 15px;
+}
+
+.search{
+    background: #f5f5f5;
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+
+.addsearch{
+    border: none;
+      outline: none;
+      background: #f5f5f5;
+      margin: 20px;
+      padding: 20px;
+      min-width: 400px;
+      font-size: 18px; 
+}
+.addform{
+  display: table;
+  margin: 0 auto;
+}
+
+button{
+    font-size: 18px; 
+    border: none;
+    background: #5500FF;
+    color: white;
+    padding: 20px;
+    width: 100px;
+    margin-bottom: 50px;
+}
+
+.results{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.book{
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    padding: 10px;
+    text-align: center;
+}
