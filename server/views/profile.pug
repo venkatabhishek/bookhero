@@ -131,6 +131,8 @@ html
                                     h3= val.title
                                     br
                                     h4= val.author
+                                    br
+                                    h4 Owner: #{val.owner}
                                 button.remove(onclick="returnBook('"+val._id+"')") Return
                         else
                             h3.collinfo You have no checked out books!
