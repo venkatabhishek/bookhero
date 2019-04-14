@@ -20,7 +20,37 @@ router.get('/', authenticate, async function(req, res) {
     var user = await User.findById({ _id: userId });
 
     Book.find({owner: {$ne: user.email}, checker: {$eq: ""}}, function(err, books){
-        res.render('app', { books });
+        
+        var completed = books.map((book) => {
+            return new Promise(function(resolve, reject){
+                request({
+                    url: "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode",
+                    qs: {
+                        f: "json",
+                        location: book.location.coordinates[0] + "," + book.location.coordinates[1]
+                    }
+                }, function(err, response, body){
+                    if(err) reject(err);
+                    
+                    var data = JSON.parse(body);
+                    if( data['address']){
+                        resolve(Object.assign(book, {address:  data['address']['Match_addr']}))
+                    }else{
+                        resolve(Object.assign(book, { address:""}))
+                    }
+                    
+                })
+            })
+        })
+
+        Promise.all(completed).then(function(full){
+            res.render('app', { books: full })
+        }).catch((err) => {
+            console.log(err)
+        })
+
+        
+        
     });
     
 });
@@ -110,6 +140,14 @@ router.post('/remove', function(req, res){
 
 router.get('/add', authenticate, function(req, res) {
     res.render('add')
+})
+
+router.get('/view', function(req, res){
+    var { id } = req.query;
+
+    Book.findOne({_id: id}, function(err, doc){
+        res.render('view', {val: doc});
+    })
 })
 
 router.post('/add', authenticate, async function(req, res) {

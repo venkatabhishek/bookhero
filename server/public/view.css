@@ -80,23 +80,31 @@ i{
     margin-left: 25px; 
 }
 
-.wrapper{
+.book{
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap; 
+    margin: 200px;
 }
 
-.bookimg{
-    display: block;
+.wrapper{
     margin: auto;
-    margin-bottom: 30px;
 }
 
-.book{
-    margin: 20px;
-    text-align: center;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    padding: 20px;
-    width: 400px;
-    cursor: pointer;
+.info{
+    display: flex;
+    flex-direction: column;
+    margin-left: 40px;
+    font-size: 28px;
+
+}
+
+
+button.adds{
+    font-size: 18px; 
+    border: none;
+    background: #5500FF;
+    color: white;
+    padding: 10px;
+    width: 100px;
+    margin-top: 40px;
 }

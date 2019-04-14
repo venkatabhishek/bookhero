@@ -2,7 +2,7 @@ html
     head
         title Book Hero
         link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.8.1/css/all.css", integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf", crossorigin="anonymous")
-        link(rel="stylesheet", href="/home.css")
+        link(rel="stylesheet", href="/view.css")
     body
         div.navbar
             div.logo 
@@ -18,17 +18,15 @@ html
                     a(href="/app/profile") Profile
         hr
         div.wrapper
-            if books
-                each val, index in books
-                    div.book(data-id=index, onclick="display("+index+")")
-                        p(style="display: none;")= val._id
-                        img.bookimg(src=val.imgURL, alt="")
-                        div.info
-                            h3= val.title
-                            br
-                            h4= val.author
-                            if val.address  
-                                h4= val.address
+            div.book
+                img.bookimg(src=val.imgURL, alt="")
+                p(style="display: none;")= val._id
+                div.info
+                    h3.title= val.title
+                    br
+                    h4.author= val.author
+                    button.adds(onclick="checkout()") Checkout
+
         script.
             function find(){
                 var input = document.querySelector(".search");
@@ -37,12 +35,20 @@ html
                 return false;
             }
 
-            function display(i){
-                var book = document.querySelector("[data-id='"+i+"']");
+            function checkout(){
+                var book = document.querySelector(".book");
                 var _id = book.querySelector("p").innerHTML;
 
-                window.location.href = "/app/view?id="+_id;
-                
+                fetch("/app/checkout", {
+                    method: "POST",
+                    headers:{
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({_id})
+                }).then(function(res) {
+                    window.location.href = "/app/profile";
+                }).catch(function(err){
+                    console.log(err);
+                })
             }
-
-                    
