@@ -4,7 +4,8 @@
   "description": "Boilerplate for very basic node + express.js user registration/authentication.",
   "main": "server.js",
   "scripts": {
-    "start": "cd server && nodemon server.js"
+    "start": "cd server && node server.js",
+    "dev": "cd server && nodemon server.js"
   },
   "keywords": [
     "node.js",
