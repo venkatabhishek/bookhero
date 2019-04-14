@@ -15,10 +15,6 @@ const UserSchema = new mongoose.Schema({
     required: true,
     minlength: 8,
   },
-  books: {
-    type: Array,
-    default: []
-  },
   location: {
     type: {
       type: String, 

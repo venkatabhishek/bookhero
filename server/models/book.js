@@ -4,12 +4,25 @@ const mongoose = require('mongoose');
 const BookSchema = new mongoose.Schema({
   title: String,
   author: String,
-  ISBN: Number,
-  quantity: {
-      type: Number,
-      default: 1
+  imgURL: String,
+  owner: String, //email of owner
+  status : {
+    type: Number, 
+    default: 0
   },
-  owner: String //email of owner
+  checker: {
+    type: String, 
+    default: ""
+  },
+  location: {
+    type: {
+      type: String, 
+      enum: ['Point'], 
+    },
+    coordinates: {
+      type: [Number],
+    }
+  }
 });
 
 

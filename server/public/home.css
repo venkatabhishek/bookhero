@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
 * {
-    font-family: 'Roboto', 'FontAwesome', sans-serif;
+    font-family: 'Roboto', 'FontAesome', sans-serif;
     padding: 0;
     margin: 0;
 }
@@ -69,6 +69,7 @@ li{
 
 i{
     margin-right: 15px;
+    position: absolute;
 }
 
 .search{
@@ -76,5 +77,25 @@ i{
     border: none;
     outline: none;
     font-size: 14px;
+    margin-left: 25px; 
 }
 
+.wrapper{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; 
+}
+
+.bookimg{
+    display: block;
+    margin: auto;
+    margin-bottom: 30px;
+}
+
+.book{
+    margin: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    padding: 20px;
+    width: 400px;
+}

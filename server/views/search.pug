@@ -1,8 +1,8 @@
 html
     head
-        title Add Book
+        title Query
         link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.8.1/css/all.css", integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf", crossorigin="anonymous")
-        link(rel="stylesheet", href="/add.css")
+        link(rel="stylesheet", href="/search.css")
     body
         style.
             #snackbar {
@@ -60,20 +60,17 @@ html
                     a(href="/app/profile") Profile
         hr
         div.wrapper
-            div.addform
-                form(onsubmit="return search()")
-                    input.addsearch(name="q", type="text", placeholder="Search for books to add")
-                    button.add(type="submit") Search
             div.results
                 if results
                     each val, index in results
                         div.book(data-id=index)
-                            h3.title= val.best_book[0].title
-                            h4.author= val.best_book[0].author[0].name
+                            p(style="display: none;")= val._id
+                            h3.title= val.title
+                            h4.author= val.author
                             div.imgc
-                                p.imgURL(style="display: none;")= val.best_book[0].image_url[0]
-                                img(src=val.best_book[0].image_url[0], alt="")
-                            button.adds(onclick="add("+index+")") Add
+                                p.imgURL(style="display: none;")= val.imgURL
+                                img(src=val.imgURL, alt="")
+                            button.adds(onclick="checkout("+index+")") Checkout
         div#snackbar Book succesfully added to collection
         script.
             function search(){
@@ -84,25 +81,22 @@ html
                 return false;
             }
 
-            function add(i){
+            function checkout(i){
                 var book = document.querySelector("[data-id='"+i+"']");
-                var title = book.querySelector(".title").innerHTML;
-                var author = book.querySelector(".author").innerHTML;
-                var imgURL = book.querySelector(".imgURL").innerHTML;
+                var _id = book.querySelector("p").innerHTML;
 
-                fetch("/app/add", {
+                fetch("/app/checkout", {
                     method: "POST",
                     headers:{
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({title, author, imgURL})
+                    body: JSON.stringify({_id})
+                }).then(function(res) {
+                    window.location.href = "/app/profile";
+                }).catch(function(err){
+                    console.log(err);
                 })
-                    .then(function(res){
-                        myFunction();
-                    }).catch(function(err){
-                        console.log(err)
-                    })
             }
 
             function myFunction() {

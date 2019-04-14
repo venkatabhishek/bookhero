@@ -31,12 +31,12 @@ router.post('/register', async (req, res) => {
         maxAge: 1209600000,
         secure: process.env.NODE_ENV === 'production',
       })
-      .status(201)
-      .json({
-        title: 'User Registration Successful',
-        detail: 'Successfully registered new user',
-        csrfToken: session.csrfToken,
-      });
+      .status(201).render('app')
+      // .json({
+      //   title: 'User Registration Successful',
+      //   detail: 'Successfully registered new user',
+      //   csrfToken: session.csrfToken,
+      // });
   } catch (err) {
     res.status(400).render('signup', {
       error: err.message
@@ -72,12 +72,12 @@ router.post('/login', async (req, res) => {
         sameSite: true,
         maxAge: 1209600000,
         secure: process.env.NODE_ENV === 'production',
-      })
-      .json({
-        title: 'Login Successful',
-        detail: 'Successfully validated user credentials',
-        csrfToken: session.csrfToken,
-      });
+      }).redirect('/app')
+      // .json({
+      //   title: 'Login Successful',
+      //   detail: 'Successfully validated user credentials',
+      //   csrfToken: session.csrfToken,
+      // });
   } catch (err) {
     res.status(400).render('login', {
       error: err.message
@@ -101,7 +101,7 @@ router.post('/location', authenticate, async (req, res) => {
         }
 
         user.save((newUser, error)=>{
-          res.render('app');
+          res.redirect('/app');
         });
       }
     }
@@ -142,26 +142,15 @@ router.delete('/me', authenticate, csrfCheck, async (req, res) => {
   }
 });
 
-router.put('/logout', authenticate, csrfCheck, async (req, res) => {
+router.get('/logout', authenticate, async (req, res) => {
   try {
     const { session } = req;
     await session.expireToken(session.token);
     res.clearCookie('token');
 
-    res.json({
-      title: 'Logout Successful',
-      detail: 'Successfuly expired login session',
-    });
+    res.render('login')
   } catch (err) {
-    res.status(400).json({
-      errors: [
-        {
-          title: 'Logout Failed',
-          detail: 'Something went wrong during the logout process.',
-          errorMessage: err.message,
-        },
-      ],
-    });
+    res.status(400).render('login')
   }
 });
 

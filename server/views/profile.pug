@@ -8,8 +8,9 @@ html
         script.
             require([
             "esri/Map",
-            "esri/views/MapView"
-            ], function(Map, MapView) {
+            "esri/views/MapView",
+            "esri/widgets/Search"
+            ], function(Map, MapView, Search) {
 
             var map = new Map({
                 basemap: "topo-vector"
@@ -18,18 +19,78 @@ html
             var view = new MapView({
                 container: "mapContainer",
                 map: map,
-                center: [-77.010592, 38.880725],
-                zoom: 11
+                center: [-77.0369, 38.9072],
+                zoom: 10
+            });
+
+            var search = new Search({
+                view: view
+            });
+
+            view.ui.add(search, "top-right");
+
+            view.on("click", function(evt){
+                document.querySelector('.long').value = evt.mapPoint.longitude;
+                document.querySelector('.lat').value = evt.mapPoint.latitude;
             });
 
             });
+        
+            function returnBook(id){
+
+                fetch("/app/return", {
+                    method: "POST",
+                    headers:{
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ _id: id})
+                })
+                .then(function(res){
+                    console.log("true");
+                }).catch(function(err){
+                    console.log(err);
+                })
+
+                window.location.href = window.location.href;
+
+            }
+
+            function remove(id){
+                
+                fetch("/app/remove", {
+                    method: "POST",
+                    headers:{
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ _id: id})
+                })
+                .then(function(res){
+                    console.log("true");
+                }).catch(function(err){
+                    console.log(err);
+                })
+
+                window.location.href = window.location.href;
+
+            }
+
+            function find(){
+                var input = document.querySelector(".search");
+                var q = input.value;
+                window.location = "/app/find?q="+q+"&radius=100";
+                return false;
+            }
+
     body
         div.navbar
             div.logo 
                 a(href="/app") Book Hero
             div.search-bar
                 i.fas.fa-search
-                input.search(type="text", placeholder="Search...")
+                form(onsubmit="return find()")
+                    input.search(type="text", placeholder="Search...")
             ul
                 li
                     a(href="/app/add") Add Book
@@ -40,15 +101,47 @@ html
             div.left
                 img(src="https://ui-avatars.com/api/?name="+user.email+"&size=256", alt="")
                 h3.name= user.email
+                button.remove
+                    a.logout(href="/api/users/logout") Logout
             div.right
+                div.collection
+                    h1 Collection
+                    if books
+                        each val in books
+                            div.book
+                                img.bookimg(src=val.imgURL, alt="")
+                                div.info
+                                    h3= val.title
+                                    br
+                                    h4= val.author
+                                    if val.status == 0
+                                        h4(style="color: green;") Available
+                                    else
+                                        h4(style="color: red;") Checked Out - #{val.checker}
+                                button.remove(onclick="remove('"+val._id+"')") Remove
+                        else
+                            h3.collinfo You have no books in your collection!
+                div.collection
+                    h1 Checked Out
+                    if checked
+                        each val in checked
+                            div.book
+                                img.bookimg(src=val.imgURL, alt="")
+                                div.info
+                                    h3= val.title
+                                    br
+                                    h4= val.author
+                                button.remove(onclick="returnBook('"+val._id+"')") Return
+                        else
+                            h3.collinfo You have no checked out books!
                 form(action="/api/users/location", method="post")
                     div.location
                         h1 Location
                         h3 Choose the location from which your library will be located
                         div#mapContainer
                         h3 Or input latitude, longitude  coordinates
-                        input(type="text", value=user.location.coordinates[0], name="longitude", style="display:inline;", placeholder="longitude")
-                        input(type="text", value=user.location.coordinates[1], name="latitude", style="display:inline;", placeholder="latitude")
+                        input.long(type="text", value=user.location.coordinates[0], name="longitude", style="display:inline;", placeholder="longitude")
+                        input.lat(type="text", value=user.location.coordinates[1], name="latitude", style="display:inline;", placeholder="latitude")
                         br
                         button.location-btn(type="submit") Save
-        
+            

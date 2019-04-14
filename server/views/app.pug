@@ -9,10 +9,29 @@ html
                 a(href="/app") Book Hero
             div.search-bar
                 i.fas.fa-search
-                input.search(type="text", placeholder="Search...")
+                form(onsubmit="return find()")
+                    input.search(type="text", placeholder="Search...")
             ul
                 li
                     a(href="/app/add") Add Book
                 li
                     a(href="/app/profile") Profile
         hr
+        div.wrapper
+            if books
+                each val in books
+                    div.book
+                        img.bookimg(src=val.imgURL, alt="")
+                        div.info
+                            h3= val.title
+                            br
+                            h4= val.author
+        script.
+            function find(){
+                var input = document.querySelector(".search");
+                var q = input.value;
+                window.location = "/app/find?q="+q+"&radius=100";
+                return false;
+            }
+
+                    

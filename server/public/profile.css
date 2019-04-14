@@ -67,6 +67,7 @@ li{
 
 i{
     margin-right: 15px;
+    position: absolute;
 }
 
 .search{
@@ -74,6 +75,7 @@ i{
     border: none;
     outline: none;
     font-size: 14px;
+    margin-left: 25px; 
 }
 
 
@@ -130,4 +132,46 @@ i{
       height: 600px;
       margin: auto;
       margin-top: 40px;
+}
+
+.collection{
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+}
+
+.bookimg{
+    float: left;
+    margin: 0;
+    margin-right: 20px;
+}
+
+.book{
+    margin: 30px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    padding: 20px;
+}
+.info{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+button.remove{
+    border: none;
+    outline: none;
+    background: #5500FF;
+    color: white;
+    margin-top: 30px;
+    padding: 10px;
+}
+
+.collinfo{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.logout{
+    color: white !important;
 }
